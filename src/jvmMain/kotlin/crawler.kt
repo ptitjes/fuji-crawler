@@ -1,6 +1,13 @@
 package com.villevalois.fuji
 
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
+
+class Crawler {
+    suspend fun startUpdates() = coroutineScope {
+
+    }
+}
 
 fun main() {
 //    crawlImagesPhotoCameraAds()

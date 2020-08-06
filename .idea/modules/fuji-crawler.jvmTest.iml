@@ -5,9 +5,9 @@
       <configuration version="3" platform="JVM 11" allPlatforms="JVM [11]" useProjectSettings="false" isTestModule="true" externalProjectId="fuji-crawler">
         <dependsOnModuleNames>fuji-crawler:commonTest</dependsOnModuleNames>
         <sourceSets>
-          <sourceSet>fuji-crawler.commonMain</sourceSet>
-          <sourceSet>fuji-crawler.jvmMain</sourceSet>
           <sourceSet>fuji-crawler.commonTest</sourceSet>
+          <sourceSet>fuji-crawler.jvmMain</sourceSet>
+          <sourceSet>fuji-crawler.commonMain</sourceSet>
         </sourceSets>
         <newMppModelJpsModuleKind>COMPILATION_AND_SOURCE_SET_HOLDER</newMppModelJpsModuleKind>
         <externalSystemTestTasks>

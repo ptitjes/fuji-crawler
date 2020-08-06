@@ -2,8 +2,8 @@ package com.villevalois.fuji
 
 import io.ktor.application.*
 import io.ktor.features.*
-import io.ktor.html.*
 import io.ktor.http.*
+import io.ktor.http.cio.websocket.*
 import io.ktor.http.content.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -11,25 +11,13 @@ import io.ktor.serialization.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.util.pipeline.*
-import kotlinx.html.*
+import io.ktor.websocket.*
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
-
-fun HTML.index() {
-    attributes["style"] = "overflow-x: hidden;"
-    head {
-        title("Hello from Ktor!")
-    }
-    body {
-        div {
-            id = "root"
-        }
-        script(src = "/static/output.js") {}
-    }
-}
+import java.time.Duration
 
 fun main() {
-    embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
+    embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
         install(ContentNegotiation) {
             json(
                 Json(JsonConfiguration.Stable)
@@ -44,11 +32,11 @@ fun main() {
         install(Compression) {
             gzip()
         }
+        install(WebSockets) {
+            pingPeriod = Duration.ofMinutes(1)
+        }
 
         routing {
-            get("/") {
-                call.respondHtml(HttpStatusCode.OK, HTML::index)
-            }
             route("/api") {
                 get("/cameras") { loggedResponse(crawlFujiCameras()) }
                 get("/lenses") { loggedResponse(crawlFujiLenses()) }
@@ -59,8 +47,13 @@ fun main() {
                 get("/imagesPhotoCamerasAds") { loggedResponse(crawlImagesPhotoCameraAds()) }
                 get("/imagesPhotoLensesAds") { loggedResponse(crawlImagesPhotoLensesAds()) }
             }
-            static("/static") {
-                resources()
+            webSocket("/ws") {
+
+            }
+            static {
+                defaultResource("index.html", "web")
+                resource("output.js")
+                resources("web")
             }
         }
     }.start(wait = true)
