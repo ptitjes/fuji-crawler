@@ -8,6 +8,7 @@ plugins {
     kotlin("multiplatform") version "1.4-M3"
     application
     kotlin("plugin.serialization") version "1.4-M3"
+    id("com.github.johnrengelman.shadow") version "6.0.0"
 }
 
 group = "com.villevalois"
@@ -141,4 +142,18 @@ tasks.getByName<Jar>("jvmJar") {
 tasks.getByName<JavaExec>("run") {
     dependsOn(tasks.getByName<Jar>("jvmJar"))
     classpath(tasks.getByName<Jar>("jvmJar"))
+}
+
+tasks.getByName<Jar>("shadowJar") {
+    dependsOn(tasks.getByName("jsBrowserProductionWebpack"))
+    val jsBrowserProductionWebpack = tasks.getByName<KotlinWebpack>("jsBrowserProductionWebpack")
+    from(File(jsBrowserProductionWebpack.destinationDirectory, jsBrowserProductionWebpack.outputFileName))
+
+    manifest {
+        attributes(
+            mapOf(
+                "Main-Class" to application.mainClassName
+            )
+        )
+    }
 }
