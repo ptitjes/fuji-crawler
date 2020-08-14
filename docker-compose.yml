@@ -7,7 +7,7 @@ networks:
 
 services:
   app:
-    image: fuji-crawler
+    build: .
     container_name: fuji-crawler-app
     restart: unless-stopped
     ports:
