@@ -1,13 +1,13 @@
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 
-val kotlinVersion = "1.4-M3"
-val serializationVersion = "0.20.0-$kotlinVersion"
+val kotlinVersion = "1.4.0-rc"
+val serializationVersion = "1.0-M1-$kotlinVersion"
 val ktorVersion = "1.3.2-$kotlinVersion"
 
 plugins {
-    kotlin("multiplatform") version "1.4-M3"
+    kotlin("multiplatform") version "1.4.0-rc"
     application
-    kotlin("plugin.serialization") version "1.4-M3"
+    kotlin("plugin.serialization") version "1.4.0-rc"
     id("com.github.johnrengelman.shadow") version "6.0.0"
 }
 

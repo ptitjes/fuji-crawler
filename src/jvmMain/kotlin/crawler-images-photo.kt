@@ -7,9 +7,8 @@ import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
-import kotlinx.serialization.parse
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
@@ -52,7 +51,7 @@ suspend fun crawlImagesPhotoAjaxQuery(
             accept(ContentType.Application.Json)
             parameters.forEach { (key, value) -> parameter(key, value) }
         }
-        Json(JsonConfiguration.Stable.copy(ignoreUnknownKeys = true)).parse(text)
+        Json { ignoreUnknownKeys = true }.decodeFromString(text)
     }
     return crawlProductList(Jsoup.parse(payload.productList), nameSanitizer)
 }
@@ -61,7 +60,7 @@ fun crawlImagesPhotoAdsPage(
     page: String,
     nameSanitizer: (String) -> String?,
 ): Map<String, List<ProductSecondHandDeal>> {
-    val content = Jsoup.connect(page).userAgent(USER_AGENT).get();
+    val content = Jsoup.connect(page).userAgent(USER_AGENT).get()
     return crawlProductList(content, nameSanitizer)
 }
 

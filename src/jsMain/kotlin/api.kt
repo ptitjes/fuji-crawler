@@ -8,16 +8,12 @@ import io.ktor.client.request.*
 import kotlinx.browser.window
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 
 val endpoint = window.location.origin
 
 val jsonClient = HttpClient {
     install(JsonFeature) {
-        serializer = KotlinxSerializer(
-            Json(JsonConfiguration.Stable)
-        )
+        serializer = KotlinxSerializer()
     }
 }
 
