@@ -6,8 +6,10 @@ networks:
       name: webproxy
 
 services:
-  nginx:
+  app:
     image: fuji-crawler
+    container_name: fuji-crawler-app
+    restart: unless-stopped
     ports:
     - 8080:8080
     environment:
